@@ -79,6 +79,59 @@ Flujo implementado: **Ruta → Vista → Template → Estático**.
 3. La imagen queda guardada en `media/posts/`.
 4. Desde "Editar" se puede cambiar o quitar la imagen.
 
+## Preentrega 11 — Autenticación, usuarios y perfiles
+
+Se creó la app `accounts` (registrada en `INSTALLED_APPS`).
+
+- **Registro** (`/cuentas/registro/`): formulario `RegistroForm` basado en `UserCreationForm`
+  (usuario, email, nombre, apellido y contraseña). Al registrarse se crea el `Perfil`
+  y el usuario queda logueado.
+- **Login** (`/cuentas/login/`): `LoginView` nativa de Django con template propio.
+- **Logout** (botón "Cerrar sesión" del menú): `LogoutView` (por POST), redirige al listado de posts.
+- **Redirecciones** en `settings.py`: `LOGIN_URL = 'login'`,
+  `LOGIN_REDIRECT_URL = 'lista_posts'`, `LOGOUT_REDIRECT_URL = 'lista_posts'`.
+- **Cambio de contraseña**: `/cuentas/password/`.
+
+### Modelo Perfil
+
+`accounts/models.py`: `Perfil` tiene `user` (`OneToOneField` con `User`), `biografia` (`TextField`),
+`link_web` (`URLField` opcional) y `avatar` (`ImageField(upload_to="avatares/")`).
+
+El perfil se crea automáticamente al crear un usuario mediante una señal `post_save`
+(`accounts/signals.py`) y, además, la view de registro lo asegura con
+`Perfil.objects.get_or_create(user=usuario)`. Está registrado en el admin.
+
+### Avatares
+
+Se guardan en `media/avatares/` usando la configuración `MEDIA_URL` / `MEDIA_ROOT`.
+La view `editar_perfil` pasa `request.FILES` al formulario y el template usa
+`enctype="multipart/form-data"`. Si no hay avatar, se muestra un texto alternativo.
+
+- Ver perfil: `/cuentas/perfil/` · Editar biografía y avatar: `/cuentas/perfil/editar/`
+
+### Rutas protegidas (requieren login con `@login_required`)
+
+- Crear post: `/post/nuevo/`
+- Editar post: `/posts/<id>/editar/`
+- Eliminar post: `/posts/<id>/eliminar/`
+- Perfil y edición de perfil: `/cuentas/perfil/`, `/cuentas/perfil/editar/`
+- Cambio de contraseña: `/cuentas/password/`
+
+Si un visitante anónimo entra a esas URLs, es redirigido al login.
+El listado y el detalle de posts siguen siendo públicos.
+
+El menú cambia según el usuario: los anónimos ven "Iniciar sesión" y "Registrarse";
+los logueados ven "Hola, usuario", "Crear post", "Mi perfil" y "Cerrar sesión".
+
+### Migraciones
+
+Después de clonar o actualizar el proyecto:
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 ## Estructura
 
 ```
@@ -86,6 +139,7 @@ blog_django/
 ├── manage.py
 ├── requirements.txt
 ├── blog_project/      # settings.py, urls.py
-├── media/posts/     # imágenes subidas (no se sube al repo)
-└── posts/           # models, forms, admin, views, urls, templates/posts/, static/posts/css/
+├── media/           # posts/ y avatares/ (no se sube al repo)
+├── posts/           # models, forms, admin, views, urls, templates/posts/, static/posts/css/
+└── accounts/        # Perfil, forms, signals, views, urls, templates/accounts/
 ```

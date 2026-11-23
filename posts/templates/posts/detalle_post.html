@@ -20,8 +20,10 @@
 
   <div class="acciones">
     <a class="boton boton-secundario" href="{% url 'lista_posts' %}">Volver</a>
-    <a class="boton" href="{% url 'editar_post' post.pk %}">Editar</a>
-    <a class="boton boton-peligro" href="{% url 'eliminar_post' post.pk %}">Eliminar</a>
+    {% if user.is_authenticated %}
+      <a class="boton" href="{% url 'editar_post' post.pk %}">Editar</a>
+      <a class="boton boton-peligro" href="{% url 'eliminar_post' post.pk %}">Eliminar</a>
+    {% endif %}
   </div>
 </article>
 {% endblock %}

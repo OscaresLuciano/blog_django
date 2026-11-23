@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PostForm
@@ -27,7 +28,8 @@ def detalle_post(request, pk):
     return render(request, "posts/detalle_post.html", {"post": post})
 
 
-# ---------- CREATE ----------
+# ---------- CREATE (requiere login) ----------
+@login_required
 def crear_post(request):
     if request.method == "POST":
         # request.FILES trae la imagen subida
@@ -37,13 +39,15 @@ def crear_post(request):
             messages.success(request, "Post creado correctamente.")
             return redirect("detalle_post", pk=post.pk)
     else:
-        form = PostForm(initial={"estado": Post.PUBLICADO})
+        autor = request.user.get_full_name() or request.user.username
+        form = PostForm(initial={"estado": Post.PUBLICADO, "autor": autor})
 
     context = {"form": form, "titulo_pagina": "Nuevo post"}
     return render(request, "posts/post_form.html", context)
 
 
-# ---------- UPDATE ----------
+# ---------- UPDATE (requiere login) ----------
+@login_required
 def editar_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
@@ -59,7 +63,8 @@ def editar_post(request, pk):
     return render(request, "posts/post_form.html", context)
 
 
-# ---------- DELETE ----------
+# ---------- DELETE (requiere login) ----------
+@login_required
 def eliminar_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":

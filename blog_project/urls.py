@@ -6,12 +6,13 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("cuentas/", include("accounts.urls")),
     path("", include("posts.urls")),
 ]
 
 # Sirve los archivos estáticos (CSS) mientras DEBUG = True
 urlpatterns += staticfiles_urlpatterns()
 
-# Sirve los archivos media (imágenes subidas) en desarrollo
+# Sirve los archivos media (imágenes de posts y avatares) en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
