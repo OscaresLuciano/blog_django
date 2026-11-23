@@ -32,6 +32,18 @@ Flujo implementado: **Ruta → Vista → Template → Estático**.
 - `posts/static/posts/css/estilos.css` tiene los estilos del sitio, enlazado con
   `{% static 'posts/css/estilos.css' %}`.
 
+## Preentrega 9 — Modelos, ORM y Admin
+
+- Modelo `Post` en `posts/models.py` con los campos `titulo`, `contenido`, `autor`,
+  `fecha_creacion` (`auto_now_add=True`) y `estado` (choices: borrador, publicado, archivado).
+  Implementa `__str__` que devuelve el título.
+- Migraciones: `python manage.py makemigrations` y `python manage.py migrate` (base SQLite `db.sqlite3`).
+- Admin: `posts/admin.py` registra `Post` con `PostAdmin` (columnas título, autor, estado y fecha).
+- Superusuario: `python manage.py createsuperuser`, luego entrar a `/admin/` y cargar posts.
+- La view `lista_posts` consulta con el ORM
+  `Post.objects.filter(estado="publicado").order_by("-fecha_creacion")`
+  y el template los recorre con `{% for post in posts %}`.
+
 ## Estructura
 
 ```
@@ -39,5 +51,5 @@ blog_django/
 ├── manage.py
 ├── requirements.txt
 ├── blog_project/      # settings.py, urls.py
-└── posts/           # views, urls, templates/posts/, static/posts/css/
+└── posts/           # models, admin, views, urls, templates/posts/, static/posts/css/
 ```

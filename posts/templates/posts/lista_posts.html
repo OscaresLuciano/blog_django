@@ -8,10 +8,13 @@
 {% for post in posts %}
   <article class="tarjeta post">
     <h2>{{ post.titulo }}</h2>
-    <p class="meta">Por {{ post.autor }}</p>
-    <p>{{ post.contenido }}</p>
+    <p class="meta">
+      Por {{ post.autor }} · {{ post.fecha_creacion|date:"d/m/Y H:i" }}
+      · <span class="estado">{{ post.get_estado_display }}</span>
+    </p>
+    <p>{{ post.contenido|linebreaksbr }}</p>
   </article>
 {% empty %}
-  <p>Todavía no hay publicaciones.</p>
+  <p>Todavía no hay publicaciones publicadas. Cargalas desde el <a href="/admin/">panel de administración</a>.</p>
 {% endfor %}
 {% endblock %}
