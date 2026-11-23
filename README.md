@@ -44,6 +44,41 @@ Flujo implementado: **Ruta → Vista → Template → Estático**.
   `Post.objects.filter(estado="publicado").order_by("-fecha_creacion")`
   y el template los recorre con `{% for post in posts %}`.
 
+## Preentrega 10 — CRUD de posts con imágenes
+
+### Operaciones disponibles
+
+| Operación | URL | View |
+|---|---|---|
+| Listar | `/posts/` | `lista_posts` |
+| Ver detalle | `/posts/<id>/` | `detalle_post` |
+| Crear | `/post/nuevo/` | `crear_post` |
+| Editar | `/posts/<id>/editar/` | `editar_post` |
+| Eliminar (con confirmación) | `/posts/<id>/eliminar/` | `eliminar_post` |
+
+- `posts/forms.py`: `PostForm` hereda de `forms.ModelForm` con los campos
+  `titulo`, `contenido`, `autor`, `estado` e `imagen`.
+- Templates: `lista_posts.html`, `detalle_post.html`, `post_form.html` y `post_confirm_delete.html`,
+  todos heredan de `posts/base.html`.
+
+### Manejo de imágenes
+
+- Nueva dependencia: **Pillow** (`pip install Pillow`, incluida en `requirements.txt`).
+- Campo en el modelo: `imagen = models.ImageField(upload_to='posts/', null=True, blank=True)`.
+- `settings.py`: `MEDIA_URL = '/media/'` y `MEDIA_ROOT = BASE_DIR / 'media'`.
+- `blog_project/urls.py` sirve los archivos media en desarrollo con
+  `static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)`.
+- Las views de crear y editar pasan `request.FILES` al formulario.
+- `post_form.html` usa `enctype="multipart/form-data"`.
+- Si un post no tiene imagen, el template muestra un mensaje en lugar de romperse.
+
+### Cómo probar la carga de imágenes
+
+1. Ir a `/post/nuevo/`, completar el formulario y elegir una imagen.
+2. Guardar: se abre el detalle del post con la imagen.
+3. La imagen queda guardada en `media/posts/`.
+4. Desde "Editar" se puede cambiar o quitar la imagen.
+
 ## Estructura
 
 ```
@@ -51,5 +86,6 @@ blog_django/
 ├── manage.py
 ├── requirements.txt
 ├── blog_project/      # settings.py, urls.py
-└── posts/           # models, admin, views, urls, templates/posts/, static/posts/css/
+├── media/posts/     # imágenes subidas (no se sube al repo)
+└── posts/           # models, forms, admin, views, urls, templates/posts/, static/posts/css/
 ```

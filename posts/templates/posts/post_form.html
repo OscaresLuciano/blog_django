@@ -1,0 +1,22 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}{{ titulo_pagina }} · Blog de Luciano{% endblock %}
+
+{% block content %}
+<section class="tarjeta">
+  <h1>{{ titulo_pagina }}</h1>
+
+  <form method="post" enctype="multipart/form-data" class="formulario">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="acciones">
+      <button type="submit" class="boton">Guardar</button>
+      {% if post %}
+        <a class="boton boton-secundario" href="{% url 'detalle_post' post.pk %}">Cancelar</a>
+      {% else %}
+        <a class="boton boton-secundario" href="{% url 'lista_posts' %}">Cancelar</a>
+      {% endif %}
+    </div>
+  </form>
+</section>
+{% endblock %}

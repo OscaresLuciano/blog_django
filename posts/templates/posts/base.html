@@ -14,12 +14,19 @@
       <nav class="menu">
         <a href="{% url 'inicio' %}">Inicio</a>
         <a href="{% url 'lista_posts' %}">Posts</a>
+        <a href="{% url 'crear_post' %}">Crear post</a>
         <a href="{% url 'acerca' %}">Acerca de</a>
       </nav>
     </div>
   </header>
 
   <main class="contenedor contenido">
+    {% if messages %}
+      <ul class="mensajes">
+        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+
     {% block content %}{% endblock %}
   </main>
 
