@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Blog de Luciano{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'posts/css/estilos.css' %}">
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor encabezado-interno">
+      <a class="logo" href="{% url 'inicio' %}">Blog de Luciano</a>
+      <nav class="menu">
+        <a href="{% url 'inicio' %}">Inicio</a>
+        <a href="{% url 'lista_posts' %}">Posts</a>
+        <a href="{% url 'acerca' %}">Acerca de</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contenedor contenido">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">Blog Django · Proyecto del curso de Python de Coderhouse</div>
+  </footer>
+</body>
+</html>

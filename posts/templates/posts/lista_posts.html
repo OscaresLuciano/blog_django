@@ -1,0 +1,17 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Posts · Blog de Luciano{% endblock %}
+
+{% block content %}
+<h1>Publicaciones</h1>
+
+{% for post in posts %}
+  <article class="tarjeta post">
+    <h2>{{ post.titulo }}</h2>
+    <p class="meta">Por {{ post.autor }}</p>
+    <p>{{ post.contenido }}</p>
+  </article>
+{% empty %}
+  <p>Todavía no hay publicaciones.</p>
+{% endfor %}
+{% endblock %}

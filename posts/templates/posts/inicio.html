@@ -1,0 +1,20 @@
+{% extends 'posts/base.html' %}
+
+{% block title %}Inicio · Blog de Luciano{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Bienvenido al Blog de Luciano</h1>
+  <p class="bajada">Un espacio para compartir lo que voy aprendiendo sobre programación, Python y desarrollo web.</p>
+</section>
+
+<section class="tarjeta">
+  <h2>¿De qué trata este proyecto?</h2>
+  <p>
+    Este blog nació como un sistema por consola hecho en Python y hoy es un sitio web construido con Django.
+    Acá vas a encontrar publicaciones sobre los temas del curso: estructuras de datos, funciones,
+    programación orientada a objetos y desarrollo web.
+  </p>
+  <a class="boton" href="{% url 'lista_posts' %}">Ver publicaciones</a>
+</section>
+{% endblock %}
