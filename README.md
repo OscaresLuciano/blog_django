@@ -143,3 +143,10 @@ blog_django/
 ├── posts/           # models, forms, admin, views, urls, templates/posts/, static/posts/css/
 └── accounts/        # Perfil, forms, signals, views, urls, templates/accounts/
 ```
+
+## Entregas
+
+- Preentrega 8: https://github.com/OscaresLuciano/blog_django/tree/preentrega-8
+- Preentrega 9: https://github.com/OscaresLuciano/blog_django/tree/preentrega-9
+- Preentrega 10: https://github.com/OscaresLuciano/blog_django/tree/preentrega-10
+- Preentrega 11: https://github.com/OscaresLuciano/blog_django/tree/preentrega-11
